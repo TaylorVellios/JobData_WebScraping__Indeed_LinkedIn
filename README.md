@@ -35,8 +35,8 @@ The Web Scraping python script is made to search and store only recent job posti
 ### Instructions for Scraper:
 * Run Indeed_WebScraping.py in bash/terminal
 * You will be prompted for two inputs:
-** 1. A Single Index or a One/Two Digit Slice (with colon separator) of the City/State Columns in the DataFrame displayed.
-** 2. A search term for whatever job title you would like to scrape.
+  1. A Single Index or a One/Two Digit Slice (with colon separator) of the City/State Columns in the DataFrame displayed.
+  2. A search term for whatever job title you would like to scrape.
 <br></br>
 
 *Please note that this script is set to ping indeed.com once every 30 seconds.<br>
