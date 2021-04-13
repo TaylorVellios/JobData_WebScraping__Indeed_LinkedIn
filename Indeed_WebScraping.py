@@ -74,8 +74,10 @@ def indeed_scrape(list_of_cities, search_term):
     page_num = 0
 
     indeed_captcha_count = 0
+    city_len = len(list_of_cities)
+    current=1
     for location in list_of_cities:
-        print(f"------------Searching {location.replace('%2C+',', ')}:")
+        print(f"------------Searching {location.replace('%2C+',', ')} -- {current}/{city_len}:")
         for i in range(page_range):
             url = f'https://www.indeed.com/jobs?q={search_term}&l={location}&sort=date&start={page_num}'
             time.sleep(30)
@@ -96,6 +98,7 @@ def indeed_scrape(list_of_cities, search_term):
                 print(f'Page {i+1}/{page_range}: Bad!')
                 break
             finally:
+                current += 1
                 if indeed_captcha_count > 10:
                     print('Service from Indeed.com has been terminated.\nCheck your browser for a captcha prompt and try again in an hour.\n')
                     break
