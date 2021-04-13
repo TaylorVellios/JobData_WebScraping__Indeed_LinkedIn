@@ -1,7 +1,6 @@
 # Indeed_Web_Scraping
 Scraping Indeed (as ethically as possible) for Job Data Across Many Cities For the Younger Nomadic Workforce.
 
-<br></br>
 
 ## Purpose
 To compile job listing data across the US's largest cities for your career of choice.<br></br>
@@ -12,7 +11,6 @@ This script allows the user to gain the following insights:
 * Which metropolitan areas in the US have higher concentrations of recent job postings for their industry.
 * The companies that post listings in those areas, allowing for an easier job search.
 * Locations of employers in the nearby-surrounding cities across the area, allowing the user to see and narrow down housing location choices.
-
 
 
 ## Dependencies 
@@ -27,12 +25,12 @@ This script allows the user to gain the following insights:
 
 <br></br>
 ## Features
-This repository contains a main script to run (Indeed_WebScraping.py) as well as a Jupyter Notebook file (Plotting_Indeed_Data.ipynb).<br></br>
+This repository contains a main script (Indeed_WebScraping.py) as well as a Jupyter Notebook file (Plotting_Indeed_Data.ipynb).<br></br>
 
 The included .csv file (CityData_Clean.csv) contains the top 100 cities in the US sorted by descending population size.<br></br>
 
 
-The Web Scraping python script is made to search for recent job postings on Indeed.com and return them as a .csv file on your machine.<br></br>
+The Web Scraping python script is made to search and store only recent job postings on Indeed.com (within 30 days) and return them as a .csv file on your machine.<br></br>
 
 ### Instructions for Scraper:
 * Run Indeed_WebScraping.py in bash/terminal
