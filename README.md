@@ -16,9 +16,21 @@ This script allows the user to gain the following insights:
 ## Dependencies 
 #### Indeed_WebScraping.py
 * Requests
+  ~~~~
+  pip install requests
+  ~~~~
 * Pandas
+  ~~~~
+  pip install pandas
+  ~~~~
 * BeautifulSoup
+  ~~~~
+  pip install beautifulsoup4
+  ~~~~
 * geopy
+  ~~~~
+  pip install geopy
+  ~~~~
 
 ### Plotting_Indeed_Data.ipynb
 * gmaps
