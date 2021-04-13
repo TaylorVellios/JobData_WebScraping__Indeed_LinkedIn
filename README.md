@@ -17,23 +17,26 @@ This script allows the user to gain the following insights:
 #### Indeed_WebScraping.py
 * Requests
   ~~~~
-  pip install requests
+  $ pip install requests
   ~~~~
 * Pandas
   ~~~~
-  pip install pandas
+  $ pip install pandas
   ~~~~
 * BeautifulSoup
   ~~~~
-  pip install beautifulsoup4
+  $ pip install beautifulsoup4
   ~~~~
 * geopy
   ~~~~
-  pip install geopy
+  $ pip install geopy
   ~~~~
 
 ### Plotting_Indeed_Data.ipynb
 * gmaps
+  ~~~~
+  $ conda install -c conda-forge gmaps
+  ~~~~
 * gmaps.config.py file with your api key set to a variable named 'g_key'
 
 <br></br>
