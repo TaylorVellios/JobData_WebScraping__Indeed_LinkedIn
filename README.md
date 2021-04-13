@@ -59,6 +59,9 @@ This python script is made to search and store only recent job postings on Indee
 * Open Plotting_Indeed_Data.ipynb in Jupyter Notebook.
 * Find your output .csv file in the new 'Indeed_Data' directory created when the scraper finished. It will be named with the current day and your search term.
 * Enter the file name of that .csv in the first empty-string variable 'file_name' in the second cell.
+
+![pyter](https://user-images.githubusercontent.com/14188580/114608636-827f2c80-9c63-11eb-8acf-073e63f80182.PNG)
+
 * Run it and see where the jobs pop up!
 
 ![default_map](https://user-images.githubusercontent.com/14188580/114607599-5adb9480-9c62-11eb-981b-e6f6768fc763.PNG)<br></br>
