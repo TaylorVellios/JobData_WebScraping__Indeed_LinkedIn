@@ -19,7 +19,7 @@ This script allows the user to gain the following insights:
 * geopy
 
 <br>
-#### Plotting_Indeed_Data.ipynb
+### Plotting_Indeed_Data.ipynb
 * gmaps
 * gmaps.config.py file with your api key set to a variable named 'g_key'
 
@@ -29,7 +29,7 @@ This repository contains a main script to run (Indeed_WebScraping.py) as well as
 The included .csv file (CityData_Clean.csv) contains the top 100 cities in the US sorted by descending population size.<br>
 
 The Web Scraping python script is made to search for recent job postings on Indeed.com and return them as a .csv file on your machine.<br>
-#### Instructions for Scraper:
+### Instructions for Scraper:
 * Run Indeed_WebScraping.py in bash/terminal
 * You will be prompted for two inputs:
 ** 1. A Single Index or a One/Two Digit Slice (with colon separator) of the City/State Columns in the DataFrame displayed.
@@ -42,7 +42,7 @@ The Web Scraping python script is made to search for recent job postings on Inde
 <br>
 <br>
 
-#### Instructions for Mapper:
+### Instructions for Mapper:
 * Ensure you have set your gmaps api token to a variable named "g_key" in a file named "g_config.py" in this repo's directory.
 * Open Plotting_Indeed_Data.ipynb in Jupyter Notebook.
 * Find your output .csv file in the new 'Indeed_Data' directory created when the scraper finished. It will be named with the current day and your search term.
