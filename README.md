@@ -1,15 +1,18 @@
 # Indeed_Web_Scraping
-Scraping Indeed (as ethically as possible) for Job Data Across Many Cities For the Younger Nomadic Workforce.<br>
+Scraping Indeed (as ethically as possible) for Job Data Across Many Cities For the Younger Nomadic Workforce.
 
-<br>
+<br></br>
+
 ## Purpose
-To compile job listing data across the US's largest cities for your career of choice.<br>
-Millenials and Zoomers are proving that they are happy to move where the jobs are.<br>
+To compile job listing data across the US's largest cities for your career of choice.<br></br>
+
+Millenials and Zoomers are proving that they are happy to move where the jobs are.<br></br>
+
 This script allows the user to gain the following insights:
 * Which metropolitan areas in the US have higher concentrations of recent job postings for their industry.
 * The companies that post listings in those areas, allowing for an easier job search.
 * Locations of employers in the nearby-surrounding cities across the area, allowing the user to see and narrow down housing location choices.
-<br></br>
+
 
 
 ## Dependencies 
@@ -18,14 +21,14 @@ This script allows the user to gain the following insights:
 * BeautifulSoup
 * geopy
 
-<br></br>
 ### Plotting_Indeed_Data.ipynb
 * gmaps
 * gmaps.config.py file with your api key set to a variable named 'g_key'
 
 <br></br>
 ## Features
-This repository contains a main script to run (Indeed_WebScraping.py) as well as a Jupyter Notebook file (Plotting_Indeed_Data.ipynb).<br>
+This repository contains a main script to run (Indeed_WebScraping.py) as well as a Jupyter Notebook file (Plotting_Indeed_Data.ipynb).<br></br>
+
 The included .csv file (CityData_Clean.csv) contains the top 100 cities in the US sorted by descending population size.<br></br>
 
 
