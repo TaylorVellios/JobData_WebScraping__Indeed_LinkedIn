@@ -98,10 +98,11 @@ def indeed_scrape(list_of_cities, search_term):
                 print(f'Page {i+1}/{page_range}: Bad!')
                 break
             finally:
-                current += 1
                 if indeed_captcha_count > 10:
                     print('Service from Indeed.com has been terminated.\nCheck your browser for a captcha prompt and try again in an hour.\n')
                     break
+        current += 1
+
 
 
 def clean_indeed_cities(web_scrape_results_dataframe):
