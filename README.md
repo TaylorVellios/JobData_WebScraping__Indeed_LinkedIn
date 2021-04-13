@@ -39,12 +39,10 @@ The Web Scraping python script is made to search and store only recent job posti
   2. A search term for whatever job title you would like to scrape.
 <br></br>
 
-*Please note that this script is set to ping indeed.com once every 30 seconds.<br>
-*By default, this script will search for 8 pages of results per city and filter out anything posted over a month ago.<br>
-*tl:dr -- IT TAKES A LONG TIME, DO NOT ADJUST SLEEP TIME<br>
-*Indeed.com will require a captcha if you ping it too often, breaking the program. Leave this open in an active terminal, or load it on a raspberry pi and go about your day.
-<br></br>
-
+*Please note that this script is set to ping indeed.com once every 30 seconds.*<br>
+*By default, this script will search for 8 pages of results per city and filter out anything posted over a month ago.*<br>
+*tl:dr -- IT TAKES A LONG TIME, DO NOT ADJUST SLEEP TIME*<br>
+*Indeed.com will require a captcha if you ping it too often, breaking the program. Leave this open in an active terminal, or load it on a raspberry pi and go about your day.*
 <br></br>
 
 
