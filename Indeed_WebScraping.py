@@ -168,11 +168,16 @@ cities_df = pd.read_csv('CityData_Clean.csv')
 
 print('\n----------------------------------------------------')
 print(cities_df[['City','State']])
+print('\n----------------------------------------------------')
+
 print()
 city_limit = input('Enter the Index or Slice of the City/Cities Column to Search for Job Data:\n')
 print()
+print('----------------------------------------------------\n')
+
 searching = str(input("Enter the Job Title to Search For:\n"))
 print()
+print('----------------------------------------------------\n')
 
 search_term = '+'.join([i for i in searching.split()])
 city_list = [row['City'] +'%2C+'+ row['State'] for index, row in cities_df.iterrows()]
