@@ -158,7 +158,7 @@ def get_details(dataframe):
     return job_count, city_count, city_with_most
 
 def make_file_path(search_term):
-    search = '_'.join([i.capitalize() for i in search_term])
+    search = '_'.join([i.capitalize() for i in search_term.split()])
     get_date = str(datetime.now()).split()[0]
 
     return f"{get_date}_{search}.csv"
