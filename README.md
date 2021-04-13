@@ -15,6 +15,7 @@ This script allows the user to gain the following insights:
 
 ## Dependencies 
 #### Indeed_WebScraping.py
+* Requests
 * Pandas
 * BeautifulSoup
 * geopy
