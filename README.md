@@ -34,12 +34,14 @@ This python script is made to search and store only recent job postings on Indee
 
 ### Instructions for Scraper:
 * Run Indeed_WebScraping.py in bash/terminal
+
 ![start](https://user-images.githubusercontent.com/14188580/114607448-2c5db980-9c62-11eb-8d42-f0871649fdc3.PNG)
 
 * Take note of the DataFrame printed - You will be using a single list index or slice notation for the cities you want to search.
 * You will be prompted for two inputs:
   1. A Single Index or a One/Two Digit Slice (with colon separator) of the City/State Columns in the DataFrame displayed.
   2. A search term for whatever job title you would like to scrape.
+
 ![inputs](https://user-images.githubusercontent.com/14188580/114607488-397aa880-9c62-11eb-8ba1-0d562a16fbc6.PNG)
 
 <br></br>
