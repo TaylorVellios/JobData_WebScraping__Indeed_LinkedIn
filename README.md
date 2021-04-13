@@ -9,7 +9,7 @@ This script allows the user to gain the following insights:
 * Which metropolitan areas in the US have higher concentrations of recent job postings for their industry.
 * The companies that post listings in those areas, allowing for an easier job search.
 * Locations of employers in the nearby-surrounding cities across the area, allowing the user to see and narrow down housing location choices.
-<br>
+<br></br>
 
 
 ## Dependencies 
@@ -18,29 +18,34 @@ This script allows the user to gain the following insights:
 * BeautifulSoup
 * geopy
 
-<br>
+<br></br>
 ### Plotting_Indeed_Data.ipynb
 * gmaps
 * gmaps.config.py file with your api key set to a variable named 'g_key'
 
-<br>
+<br></br>
 ## Features
 This repository contains a main script to run (Indeed_WebScraping.py) as well as a Jupyter Notebook file (Plotting_Indeed_Data.ipynb).<br>
-The included .csv file (CityData_Clean.csv) contains the top 100 cities in the US sorted by descending population size.<br>
+The included .csv file (CityData_Clean.csv) contains the top 100 cities in the US sorted by descending population size.<br></br>
 
-The Web Scraping python script is made to search for recent job postings on Indeed.com and return them as a .csv file on your machine.<br>
+
+The Web Scraping python script is made to search for recent job postings on Indeed.com and return them as a .csv file on your machine.<br></br>
+
 ### Instructions for Scraper:
 * Run Indeed_WebScraping.py in bash/terminal
 * You will be prompted for two inputs:
 ** 1. A Single Index or a One/Two Digit Slice (with colon separator) of the City/State Columns in the DataFrame displayed.
 ** 2. A search term for whatever job title you would like to scrape.
-<br> 
+<br></br>
+
 *Please note that this script is set to ping indeed.com once every 30 seconds.<br>
 *By default, this script will search for 8 pages of results per city and filter out anything posted over a month ago.<br>
 *tl:dr -- IT TAKES A LONG TIME, DO NOT ADJUST SLEEP TIME<br>
-*Indeed.com will require a captcha if you ping it too often, breaking the program. Leave this open in an active terminal, or load it on a raspberry pi and go about your day.<br>
-<br>
-<br>
+*Indeed.com will require a captcha if you ping it too often, breaking the program. Leave this open in an active terminal, or load it on a raspberry pi and go about your day.
+<br></br>
+
+<br></br>
+
 
 ### Instructions for Mapper:
 * Ensure you have set your gmaps api token to a variable named "g_key" in a file named "g_config.py" in this repo's directory.
