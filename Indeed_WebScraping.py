@@ -6,12 +6,6 @@ from datetime import datetime
 from geopy.geocoders import Nominatim
 import os
 
-
-states_abbreviated = ["AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", 
-"HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "ME", "MD", 
-"MA", "MI", "MN", "MO", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", 
-"NM", "NV", "NY", "OH", "OK", "OR", "PA", "RI", "SC", 
-"SD", "TN", "TX", "UT", "VA", "VT", "WA", "WI", "WV", "WY"]
 #--------------------------------------------------------------------------
 #Function to determine user input is a single index or a slice range, returns accordingly
 def index_or_slice(user_input, city_list):
