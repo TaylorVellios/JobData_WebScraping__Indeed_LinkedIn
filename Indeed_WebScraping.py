@@ -115,20 +115,13 @@ def clean_indeed_cities(web_scrape_results_dataframe):
     city_names = []
     for index, row in web_scrape_results_dataframe.iterrows():
         x = row['City'].split()
-        city_in = False
-        for i in x:
-            if i in states_abbreviated:
-                city_in = True
-        if city_in == False:
-            web_scrape_results_dataframe.drop(web_scrape_results_dataframe.index[index])
-        else:
-            try:
-                if len(x[1])==2:
-                    city_names.append(' '.join(x[:2]))
-                else:
-                    city_names.append(' '.join(x[:3]))
-            except:
-                city_names.append(float('NaN'))
+        try:
+            if len(x[1])==2:
+                city_names.append(' '.join(x[:2]))
+            else:
+                city_names.append(' '.join(x[:3]))
+        except:
+            city_names.append('United States, US')
     return city_names
 
 
