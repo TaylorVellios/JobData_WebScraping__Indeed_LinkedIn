@@ -65,7 +65,7 @@ This python script is made to search and store only recent job postings on Indee
 *Please note that this script is set to ping indeed.com once every 30 seconds.*<br>
 *By default, this script will search for 8 pages of results per city and filter out anything posted over a month ago.*<br>
 ### *tl:dr -- IT TAKES A LONG TIME, DO NOT ADJUST SLEEP DURATION*<br>
-*Indeed.com will require a captcha if you ping it too often, breaking the program. Leave this open in an active terminal, or load it on a raspberry pi and go about your day.*
+*Indeed.com will require a captcha if you ping it too often, breaking the program. Leave this open in an active terminal.*
 <br></br>
 ![outputDF](https://user-images.githubusercontent.com/14188580/114607521-43041080-9c62-11eb-95d3-0de4f5f9ee02.PNG)
 <br><br>
@@ -84,5 +84,9 @@ This python script is made to search and store only recent job postings on Indee
 ![zoom_map](https://user-images.githubusercontent.com/14188580/114607605-5ca55800-9c62-11eb-86f0-6fa5be333e32.PNG)
 
 
+
+<br></br>
+#### Current Known Issues
+4.16.2021 - raspberry pi python 3.7.3 fails when trying to use the geopy module, all images above performed on 3.9.2.<br>
 
 
