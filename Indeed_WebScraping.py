@@ -6,6 +6,12 @@ from datetime import datetime
 from geopy.geocoders import Nominatim
 import os
 
+
+states_abbreviated = ["AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", 
+"HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "ME", "MD", 
+"MA", "MI", "MN", "MO", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", 
+"NM", "NV", "NY", "OH", "OK", "OR", "PA", "RI", "SC", 
+"SD", "TN", "TX", "UT", "VA", "VT", "WA", "WI", "WV", "WY"]
 #--------------------------------------------------------------------------
 #Function to determine user input is a single index or a slice range, returns accordingly
 def index_or_slice(user_input, city_list):
@@ -109,13 +115,20 @@ def clean_indeed_cities(web_scrape_results_dataframe):
     city_names = []
     for index, row in web_scrape_results_dataframe.iterrows():
         x = row['City'].split()
-        try:
-            if len(x[1])==2:
-                city_names.append(' '.join(x[:2]))
-            else:
-                city_names.append(' '.join(x[:3]))
-        except:
-            city_names.append(float('NaN'))
+        city_in = False
+        for i in x:
+            if i in states_abbreviated:
+                city_in = True
+        if city_in == False:
+            web_scrape_results_dataframe.drop(web_scrape_results_dataframe.index[index])
+        else:
+            try:
+                if len(x[1])==2:
+                    city_names.append(' '.join(x[:2]))
+                else:
+                    city_names.append(' '.join(x[:3]))
+            except:
+                city_names.append(float('NaN'))
     return city_names
 
 
