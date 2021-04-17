@@ -223,26 +223,40 @@ def clean_indeed_cities(web_scrape_results_dataframe):
 # ------------------------------------------------------------------------------------------------------------------COORDINATES-----------------
 def get_coordinates(dataframe):
     print('---------Searching For Coordinates-----------')
-    geolocator = Nominatim(user_agent='my_user_agent')
-
     coordinates = {
         'city': [],
         'lats': [],
         'lons': []
     }
 
+    geolocator = Nominatim(user_agent='my_user_agent')
+
     unique_cities = set(list(dataframe['City']))
 
+    bad_city_count = 0
     worked_cities = []
     for i,j in enumerate(unique_cities):
         city_name = j.replace("'",'')
         if city_name not in worked_cities:
-            print(f"Getting Coordinates For Jobs in {city_name}")
-        x = geolocator.geocode(city_name)
-        coordinates['city'].append(city_name)
-        coordinates['lats'].append(x.latitude)
-        coordinates['lons'].append(x.longitude)
 
+            found = True
+            try:
+                x = geolocator.geocode(city_name)
+                coordinates['city'].append(city_name)
+                coordinates['lats'].append(x.latitude)
+                coordinates['lons'].append(x.longitude)
+            except:
+                bad_city_count += 1
+                coordinates['city'].append(city_name)
+                coordinates['lats'].append(float("NaN"))
+                coordinates['lons'].append(float("NaN"))
+                found = False
+            
+            if found == True:
+                print(f"Coordinates OKAY: {city_name}")
+            else:
+                print(f"Coordinates BAD: {city_name}")
+         
 
     lat_expand = []
     lon_expand = []
