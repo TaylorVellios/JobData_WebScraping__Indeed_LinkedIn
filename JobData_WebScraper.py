@@ -2,7 +2,7 @@ import pandas as pd
 from bs4 import BeautifulSoup
 import requests
 import time
-from datetime import datetime
+import datetime
 from geopy.geocoders import Nominatim
 import os
 
@@ -29,9 +29,18 @@ def index_or_slice(user_input, city_list):
 ## CACHING EACH PAGE FROM LINKEDIN PING
 def cache_linkedin(linkedin_dict):
 
+
+    today_check = datetime.datetime.now()
+    one_month = datetime.timedelta(31)
+
     for i in range(len(linkedin_dict['Job ID'])):
 
+        post_time = linkedin_dict['Time Posted'][i]
+        new_time = datetime.datetime.strptime(post_time,'%Y-%m-%d')
+
         if linkedin_dict['Job ID'][i] in linkedin_jobs['Job ID']:
+            pass
+        elif new_time + one_month < today_check:
             pass
         else:
             linkedin_jobs['Employer'].append(linkedin_dict['Employer'][i])
@@ -88,6 +97,8 @@ def cache_page(scraped_page):
             indeed_jobs['Job Board'].append('Indeed.com')
 
 
+
+
 # --------------------------------------------------------------------------------------------------------------------------SCRAPING-LINKEDIN-----
 def linkedin_scraper(city_to_search, search_term, page):
     jobs = {
@@ -102,6 +113,7 @@ def linkedin_scraper(city_to_search, search_term, page):
     #makes list of job postings per page
     location = city_to_search
     city_search = location.replace(' ','%20')
+
 
     url =f"https://www.linkedin.com/jobs/search?keywords={'%20'.join(search_term.split())}&location={city_search}&geoId=&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum={page}"
     scraper = requests.get(url)
@@ -119,17 +131,18 @@ def linkedin_scraper(city_to_search, search_term, page):
             jobs['City'].append(single_job.find(class_='job-result-card__location').text)
             jobs['Job ID'].append(single_job.get('data-id'))
             jobs['Job Board'].append('LinkedIn')
+            
+            #NEW JOB POSTINGS HAVE A DIFFERENT CLASS TO TRIGGER GREEN BOLD TEXT IN BROWSER
             try:
                 jobs['Time Posted'].append(single_job.find(class_="job-result-card__listdate--new").get('datetime'))
             except:
                 jobs['Time Posted'].append(single_job.find(class_="job-result-card__listdate").get('datetime'))
-
         except:
             failed_job_count += 1
             pass
     #NEW JOB POSTINGS HAVE A DIFFERENT CLASS TO TRIGGER GREEN BOLD TEXT IN BROWSER
 
-    return jobs, failed_job_count
+    return (jobs, failed_job_count)
 
 
 # ---------------------------------------------------------------------------------------------------------------------------SCRAPER-----------
@@ -171,6 +184,7 @@ def indeed_scrape(list_of_cities, search_term):
                     print('Service from Indeed.com has been terminated.\nCheck your browser for a captcha prompt and try again in an hour.\n')
                     break
             
+
             try:
                 #PING LINKEDIN AND CACHE------------------------------------------------
                 linkedin_get = linkedin_scraper(linkedin_location, search_term, i)
@@ -194,6 +208,9 @@ def clean_indeed_cities(web_scrape_results_dataframe):
     city_names = []
     for index, row in web_scrape_results_dataframe.iterrows():
         x = row['City'].split()
+        if x[0].lower() == 'greater':
+            x = x[1]
+
         try:
             if len(x[1])==2:
                 city_names.append(' '.join(x[:2]))
@@ -245,7 +262,7 @@ def get_details(dataframe):
 
 def make_file_path(search_term):
     search = '_'.join([i.capitalize() for i in search_term.split('+')])
-    get_date = str(datetime.now()).split()[0]
+    get_date = str(datetime.datetime.now()).split()[0]
 
     return f"{get_date}_{search}.csv"
 
