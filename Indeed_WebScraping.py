@@ -5,8 +5,9 @@ import time
 from datetime import datetime
 from geopy.geocoders import Nominatim
 import os
+import LinkedIn_Web_Scraping
 
-#--------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------------------------------------------------------------
 #Function to determine user input is a single index or a slice range, returns accordingly
 def index_or_slice(user_input, city_list):
     if '[' in user_input:
@@ -25,6 +26,24 @@ def index_or_slice(user_input, city_list):
             return city_list[int(slice[0]):int(slice[-1])]
 
 
+# ------------------------------------------------------------------------------------------------------------------------CACHING-LINKEDIN-----
+## CACHING EACH PAGE FROM LINKEDIN PING
+def cache_linkedin(linkedin_dict):
+
+    for i in range(len(linkedin_dict['Job ID'])):
+
+        if linkedin_dict['Job ID'][i] in linkedin_jobs['Job ID']:
+            pass
+        else:
+            linkedin_jobs['Employer'].append(linkedin_dict['Employer'][i])
+            linkedin_jobs['Title'].append(linkedin_dict['Title'][i])
+            linkedin_jobs['City'].append(linkedin_dict['City'][i])
+            linkedin_jobs['Job ID'].append(linkedin_dict['Job ID'][i])
+            linkedin_jobs['Time Posted'].append(linkedin_dict['Time Posted'][i])
+            linkedin_jobs['Job Board'].append('LinkedIn.com')
+
+
+# --------------------------------------------------------------------------------------------------------------------------CACHING-INDEED-----
 #Allows each ping to indeed.com to be filtered and stored to save on RAM
 def cache_page(scraped_page):
 
@@ -59,52 +78,75 @@ def cache_page(scraped_page):
                 outputs.remove(i)
             except:
                 pass
-        if job_id in jobs_parsed['Job ID']:
+        if job_id in indeed_jobs['Job ID']:
             break
         else:
-            jobs_parsed['Employer'].append(outputs[1])
-            jobs_parsed['Title'].append(outputs[0])
-            jobs_parsed['City'].append(outputs[2])
-            jobs_parsed['Job ID'].append(job_id)
-            jobs_parsed['Time Posted'].append(time_posted)
+            indeed_jobs['Employer'].append(outputs[1])
+            indeed_jobs['Title'].append(outputs[0])
+            indeed_jobs['City'].append(outputs[2])
+            indeed_jobs['Job ID'].append(job_id)
+            indeed_jobs['Time Posted'].append(time_posted)
+            indeed_jobs['Job Board'].append('Indeed.com')
 
-
-#main function to hit indeed.com servers and begin the parsing process
+# ---------------------------------------------------------------------------------------------------------------------------SCRAPER-----------
+#main function to hit indeed/linkedin servers and begin the parsing process
 def indeed_scrape(list_of_cities, search_term):
+
     page_num = 0
 
     indeed_captcha_count = 0
+    linkedin_captcha_count = 0
     city_len = len(list_of_cities)
     current=1
     for location in list_of_cities:
-        print(f"------------Searching {location.replace('%2C+',', ')} -- {current}/{city_len}:")
+        text_location = location.replace('**',', ')
+        indeed_location = '%20'.join(location.split()).replace('**','%2C+')
+        linkedin_location = location.replace('**',' ')
+
+
+        print(f"------------Searching {text_location} -- {current}/{city_len}:")
         for i in range(page_range):
-            url = f'https://www.indeed.com/jobs?q={search_term}&l={location}&sort=date&start={page_num}'
+            url = f'https://www.indeed.com/jobs?q={search_term}&l={indeed_location}&sort=date&start={page_num}'
             time.sleep(30)
         
+            indeed_stat = True
+            linkedin_stat = True
             try:
+                #PING INDEED AND CACHE
                 website = requests.get(url)
                 soup = BeautifulSoup(website.content, 'html.parser')
                 filtered = soup.find(id='resultsCol')
-    
                 job_listings = filtered.find_all(class_='jobsearch-SerpJobCard unifiedRow row result')
-                
                 cache_page(job_listings)
-
                 page_num += 10
-                print(f'Page {i+1}/{page_range}: Good!')
             except:
                 indeed_captcha_count += 1
-                print(f'Page {i+1}/{page_range}: Bad!')
-                break
+                print(f'Indeed Page {i+1}/{page_range}: Bad!')
+                indeed_stat = False
             finally:
                 if indeed_captcha_count > 10:
                     print('Service from Indeed.com has been terminated.\nCheck your browser for a captcha prompt and try again in an hour.\n')
                     break
+            
+            try:
+                #PING LINKEDIN AND CACHE------------------------------------------------
+                linkedin_get = LinkedIn_Web_Scraping.linkedin_scraper(linkedin_location, search_term, i)
+                cache_linkedin(linkedin_get)
+            except:
+                linkedin_captcha_count += 1
+                linkedin_stat = False
+
+            indeed_print, linkedin_print = 'Good!','Good!'
+            if indeed_stat == False:
+                indeed_print = 'Bad!'
+            if linkedin_stat == False:
+                linkedin_print = 'Bad!'
+            print(f'Indeed {i+1}/{page_range}: {indeed_print}    //     Linkedin {i+1}/{page_range}: {linkedin_print}')
+
         current += 1
 
 
-
+# ---------------------------------------------------------------------------------------------------------------------------------------------
 def clean_indeed_cities(web_scrape_results_dataframe):
     city_names = []
     for index, row in web_scrape_results_dataframe.iterrows():
@@ -118,7 +160,7 @@ def clean_indeed_cities(web_scrape_results_dataframe):
             city_names.append('United States, US')
     return city_names
 
-
+# ------------------------------------------------------------------------------------------------------------------COORDINATES-----------------
 def get_coordinates(dataframe):
     print('---------Searching For Coordinates-----------')
     geolocator = Nominatim(user_agent='my_user_agent')
@@ -133,10 +175,11 @@ def get_coordinates(dataframe):
 
     worked_cities = []
     for i,j in enumerate(unique_cities):
-        if j not in worked_cities:
-            print(f"Getting Coordinates For Jobs in {j}")
-        x = geolocator.geocode(j)
-        coordinates['city'].append(j)
+        city_name = j.replace("'",'')
+        if city_name not in worked_cities:
+            print(f"Getting Coordinates For Jobs in {city_name}")
+        x = geolocator.geocode(city_name)
+        coordinates['city'].append(city_name)
         coordinates['lats'].append(x.latitude)
         coordinates['lons'].append(x.longitude)
 
@@ -158,7 +201,7 @@ def get_details(dataframe):
     return job_count, city_count, city_with_most
 
 def make_file_path(search_term):
-    search = '_'.join([i.capitalize() for i in search_term.split()])
+    search = '_'.join([i.capitalize() for i in search_term.split('+')])
     get_date = str(datetime.now()).split()[0]
 
     return f"{get_date}_{search}.csv"
@@ -184,17 +227,29 @@ print()
 print('----------------------------------------------------\n')
 
 search_term = '+'.join([i for i in searching.split()])
-city_list = [row['City'] +'%2C+'+ row['State'] for index, row in cities_df.iterrows()]
+city_list = [row['City'] +'**'+ row['State'] for index, row in cities_df.iterrows()]
+
 
 #Global Var
 page_range = 8  #change this number to search over more or less pages per city on indeed.com
-jobs_parsed = {
+indeed_jobs = {
     'Employer':[],
     'Title':[],
     'City':[],
     'Job ID':[], 
     'Time Posted':[],
+    'Job Board':[]
 }
+
+linkedin_jobs = {
+    'Employer':[],
+    'Title':[],
+    'City':[],
+    'Job ID':[], 
+    'Time Posted':[],
+    'Job Board':[]
+}
+
 
 total_cities = index_or_slice(city_limit,city_list)
 
@@ -202,7 +257,12 @@ indeed_scrape(total_cities, search_term)
 print('\n\n')
 
 #Clean City Names from Indeed Listings Along With any Weird Stuff
-results_df = pd.DataFrame(jobs_parsed)
+indeed_job_df = pd.DataFrame(indeed_jobs)
+linkedin_job_df = pd.DataFrame(linkedin_jobs)
+results_df = indeed_job_df.append(linkedin_job_df, ignore_index=True)
+
+
+
 results_df['City'] = clean_indeed_cities(results_df)
 results_df = results_df.dropna()
 
@@ -216,10 +276,10 @@ print('\n\n')
 #Save to File
 path_str = make_file_path(search_term)
 try:
-    os.mkdir('Indeed_Data')
-    results_df.to_csv(f'Indeed_Data/{path_str}', index=False)
+    os.mkdir('Job_Data')
+    results_df.to_csv(f'Job_Data/{path_str}', index=False)
 except:
-    results_df.to_csv(f'Indeed_Data/{path_str}', index=False)
+    results_df.to_csv(f'Job_Data/{path_str}', index=False)
 
 print(results_df)
 print('\n\n')
