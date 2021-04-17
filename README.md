@@ -1,4 +1,4 @@
-# Indeed_Web_Scraping
+# Web Scraping Indeed and LinkedIn for Recent Job Postings
 Scraping Indeed (as ethically as possible) for Job Data Across Many Cities For the Younger Nomadic Workforce.
 
 
@@ -41,7 +41,7 @@ This script allows the user to gain the following insights:
 
 <br></br>
 ## Features
-This repository contains a main script (Indeed_WebScraping.py) as well as a Jupyter Notebook file (Plotting_Indeed_Data.ipynb).<br></br>
+This repository contains a main script (JobData_WebScraper.py) as well as a Jupyter Notebook file (Plotting_Job_Data.ipynb).<br></br>
 
 The included .csv file (CityData_Clean.csv) contains the top 100 cities in the US sorted by descending population size.<br></br>
 
@@ -49,20 +49,20 @@ The included .csv file (CityData_Clean.csv) contains the top 100 cities in the U
 This python script is made to search and store only recent job postings on Indeed.com (within 30 days) and return them as a .csv file on your machine.<br></br>
 
 ### Instructions for Scraper:
-* Run Indeed_WebScraping.py in bash/terminal
+* Run JobData_WebScraper.py in bash/terminal
 
-![start](https://user-images.githubusercontent.com/14188580/114607448-2c5db980-9c62-11eb-8d42-f0871649fdc3.PNG)
+![start](https://user-images.githubusercontent.com/14188580/115120316-82887080-9f72-11eb-8b2d-9c420387291e.PNG)
 
 * Take note of the DataFrame printed - You will be using a single list index or slice notation for the cities you want to search.
 * You will be prompted for two inputs:
   1. A Single Index or a One/Two Digit Slice (with colon separator) of the City/State Columns in the DataFrame displayed.
   2. A search term for whatever job title you would like to scrape.
 
-![inputs](https://user-images.githubusercontent.com/14188580/114607488-397aa880-9c62-11eb-8ba1-0d562a16fbc6.PNG)
+![inputs](https://user-images.githubusercontent.com/14188580/115120324-887e5180-9f72-11eb-95e3-e4b99ded82e4.PNG)
 
 <br></br>
 
-*Please note that this script is set to ping indeed.com once every 30 seconds.*<br>
+*Please note that this script is set to ping indeed and linkedin once every 30 seconds.*<br>
 *By default, this script will search for 8 pages of results per city and filter out anything posted over a month ago.*<br>
 ### *tl:dr -- IT TAKES A LONG TIME, DO NOT ADJUST SLEEP DURATION*<br>
 *Indeed.com will require a captcha if you ping it too often, breaking the program. Leave this open in an active terminal.*
@@ -87,6 +87,6 @@ This python script is made to search and store only recent job postings on Indee
 
 <br></br>
 #### Current Known Issues
-4.16.2021 - raspberry pi python 3.7.3 fails when trying to use the geopy module, all images above performed on 3.9.2.<br>
+4.17.2021 - python 3.7.3 does not work with geopy, this program was written on 3.9.2<br>
 
 
