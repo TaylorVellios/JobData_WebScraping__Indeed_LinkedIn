@@ -88,5 +88,5 @@ This python script is made to search and store only recent job postings on Indee
 <br></br>
 #### Current Known Issues
 4.17.2021 - python 3.7.3 does not work with geopy, this program was written on 3.9.2<br>
-
+          - Currently working on debugging specific cases of job postings having bad Location Parameters. May have to call geopy for every job listing
 
