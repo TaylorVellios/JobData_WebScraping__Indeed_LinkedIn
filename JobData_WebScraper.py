@@ -5,7 +5,6 @@ import time
 from datetime import datetime
 from geopy.geocoders import Nominatim
 import os
-import LinkedIn_Web_Scraping
 
 #---------------------------------------------------------------------------------------------------------------------------------------------
 #Function to determine user input is a single index or a slice range, returns accordingly
@@ -88,6 +87,51 @@ def cache_page(scraped_page):
             indeed_jobs['Time Posted'].append(time_posted)
             indeed_jobs['Job Board'].append('Indeed.com')
 
+
+# --------------------------------------------------------------------------------------------------------------------------SCRAPING-LINKEDIN-----
+def linkedin_scraper(city_to_search, search_term, page):
+    jobs = {
+        'Employer':[],
+        'Title':[],
+        'City':[],
+        'Job ID':[], 
+        'Time Posted':[],
+        'Job Board':[]
+    }
+
+    #makes list of job postings per page
+    location = city_to_search
+    city_search = location.replace(' ','%20')
+
+    url =f"https://www.linkedin.com/jobs/search?keywords={'%20'.join(search_term.split())}&location={city_search}&geoId=&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum={page}"
+    scraper = requests.get(url)
+
+    soup = BeautifulSoup(scraper.content, 'html.parser')
+    job_listings = soup.find_all(class_='result-card job-result-card result-card--with-hover-state')
+
+
+    failed_job_count = 0
+    for job_index, single_job in enumerate(job_listings):
+        
+        try:
+            jobs['Employer'].append(single_job.find(class_="result-card__subtitle-link job-result-card__subtitle-link").text)
+            jobs['Title'].append(single_job.find(class_="result-card__title job-result-card__title").text)
+            jobs['City'].append(single_job.find(class_='job-result-card__location').text)
+            jobs['Job ID'].append(single_job.get('data-id'))
+            jobs['Job Board'].append('LinkedIn')
+            try:
+                jobs['Time Posted'].append(single_job.find(class_="job-result-card__listdate--new").get('datetime'))
+            except:
+                jobs['Time Posted'].append(single_job.find(class_="job-result-card__listdate").get('datetime'))
+
+        except:
+            failed_job_count += 1
+            pass
+    #NEW JOB POSTINGS HAVE A DIFFERENT CLASS TO TRIGGER GREEN BOLD TEXT IN BROWSER
+
+    return jobs, failed_job_count
+
+
 # ---------------------------------------------------------------------------------------------------------------------------SCRAPER-----------
 #main function to hit indeed/linkedin servers and begin the parsing process
 def indeed_scrape(list_of_cities, search_term):
@@ -99,10 +143,10 @@ def indeed_scrape(list_of_cities, search_term):
     city_len = len(list_of_cities)
     current=1
     for location in list_of_cities:
+
         text_location = location.replace('**',', ')
         indeed_location = '%20'.join(location.split()).replace('**','%2C+')
         linkedin_location = location.replace('**',' ')
-
 
         print(f"------------Searching {text_location} -- {current}/{city_len}:")
         for i in range(page_range):
@@ -121,7 +165,6 @@ def indeed_scrape(list_of_cities, search_term):
                 page_num += 10
             except:
                 indeed_captcha_count += 1
-                print(f'Indeed Page {i+1}/{page_range}: Bad!')
                 indeed_stat = False
             finally:
                 if indeed_captcha_count > 10:
@@ -130,8 +173,8 @@ def indeed_scrape(list_of_cities, search_term):
             
             try:
                 #PING LINKEDIN AND CACHE------------------------------------------------
-                linkedin_get = LinkedIn_Web_Scraping.linkedin_scraper(linkedin_location, search_term, i)
-                cache_linkedin(linkedin_get)
+                linkedin_get = linkedin_scraper(linkedin_location, search_term, i)
+                cache_linkedin(linkedin_get[0])
             except:
                 linkedin_captcha_count += 1
                 linkedin_stat = False
@@ -141,7 +184,7 @@ def indeed_scrape(list_of_cities, search_term):
                 indeed_print = 'Bad!'
             if linkedin_stat == False:
                 linkedin_print = 'Bad!'
-            print(f'Indeed {i+1}/{page_range}: {indeed_print}    //     Linkedin {i+1}/{page_range}: {linkedin_print}')
+            print(f'Indeed {i+1}/{page_range}: {indeed_print}    //     Linkedin {i+1}/{page_range}: {linkedin_print}  --  Jobs Rejected: {linkedin_get[1]}')
 
         current += 1
 
