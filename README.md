@@ -73,7 +73,7 @@ This python script is made to search and store only recent job postings on Indee
 ### Instructions for Mapper:
 * Ensure you have set your gmaps api token to a variable named "g_key" in a file named "g_config.py" in this repo's directory.
 * Open Plotting_Job_Data.ipynb in Jupyter Notebook.
-* Find your output .csv file in the new 'Indeed_Data' directory created when the scraper finished. It will be named with the current day and your search term.
+* Find your output .csv file in the new 'Job_Data' directory created when the scraper finished. It will be named with the current day and your search term.
 * Enter the file name of that .csv in the first empty-string variable 'file_name' in the second cell.
 
 ![pyter](https://user-images.githubusercontent.com/14188580/114608636-827f2c80-9c63-11eb-8acf-073e63f80182.PNG)
