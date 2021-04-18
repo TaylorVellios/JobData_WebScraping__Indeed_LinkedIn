@@ -207,17 +207,26 @@ def indeed_scrape(list_of_cities, search_term):
 def clean_indeed_cities(web_scrape_results_dataframe):
     city_names = []
     for index, row in web_scrape_results_dataframe.iterrows():
-        x = row['City'].split()
-        if x[0].lower() == 'greater':
-            x = x[1]
+        city = row['City'].split()
+        x = [i.replace(',','') for i in city if i.lower() not in ['metropolitan', 'area', 'metroplex', 'streets']]
 
-        try:
-            if len(x[1])==2:
-                city_names.append(' '.join(x[:2]))
-            else:
-                city_names.append(' '.join(x[:3]))
-        except:
-            city_names.append('United States, US')
+        garbage_check = [x.index(i) for i in x if '(' in i]
+        if len(garbage_check) == 1:
+            parenth_index = garbage_check[0]
+        else:
+            parenth_index = None
+
+        x = x[:parenth_index]
+        for j,i in enumerate(x):
+            try:
+                math = int(i)
+                x.remove(i)
+            except:
+                pass
+
+        if len(x) == 0:
+            x = ['United States', 'US']
+        city_names.append(' '.join(x))
     return city_names
 
 # ------------------------------------------------------------------------------------------------------------------COORDINATES-----------------
@@ -240,14 +249,13 @@ def get_coordinates(dataframe):
         if city_name not in worked_cities:
 
             found = True
+            coordinates['city'].append(city_name)
             try:
                 x = geolocator.geocode(city_name)
-                coordinates['city'].append(city_name)
                 coordinates['lats'].append(x.latitude)
                 coordinates['lons'].append(x.longitude)
             except:
                 bad_city_count += 1
-                coordinates['city'].append(city_name)
                 coordinates['lats'].append(float("NaN"))
                 coordinates['lons'].append(float("NaN"))
                 found = False
@@ -265,8 +273,9 @@ def get_coordinates(dataframe):
         pointer = coordinates['city'].index(row['City'])
         lat_expand.append(coordinates['lats'][pointer])
         lon_expand.append(coordinates['lons'][pointer])
-    return lat_expand, lon_expand
+    return lat_expand, lon_expand, bad_city_count
 
+#--------------------------------------------------------------------------------------------------------------------------Runtime-Details--
 #Get Outputs for Terminal When Done
 def get_details(dataframe):
     job_count = len(dataframe['Job ID'].unique())
@@ -281,7 +290,7 @@ def make_file_path(search_term):
     return f"{get_date}_{search}.csv"
 
 
-#---Main Script---------------------------------------------------------------------------
+#------------------------------------------------------------------------------------------------------------------------------Main-Script--
 pd.set_option("display.max_rows", None, "display.max_columns", None)
 
 cities_df = pd.read_csv('CityData_Clean.csv')
@@ -340,11 +349,24 @@ results_df = indeed_job_df.append(linkedin_job_df, ignore_index=True)
 results_df['City'] = clean_indeed_cities(results_df)
 results_df = results_df.dropna()
 
+
+
+#Save to File-------------------------------------------------------------------------TEMPORARY
+path_str = make_file_path(search_term)
+try:
+    os.mkdir('Job_Data')
+    results_df.to_csv(f'Job_Data/{path_str}PRECOORDINATES', index=False)
+except:
+    results_df.to_csv(f'Job_Data/{path_str}PRECOORDINATES', index=False)
+
+
+
 #add coordinates for all cities
 coords = get_coordinates(results_df)
 results_df['Lat'] = coords[0]
 results_df['Lng'] = coords[1]
 results_df['CityCount'] = results_df.groupby(['City'])['City'].transform('count')
+failed_city_coords = coords[2]
 print('\n\n')
 
 #Save to File
@@ -361,6 +383,6 @@ print('\n\n')
 stats = get_details(results_df)
 print(f"Total Jobs: {stats[0]}\n"
     f"Total Cities: {stats[1]}\n"
-    f"City With the Most Results: {stats[2]}\n\n")
+    f"Count of Cities that Failed Coordinate Search: {failed_city_coords}\n\n")
 
 print(f'DataFrame Saved as {path_str}')
