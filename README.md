@@ -72,7 +72,7 @@ This python script is made to search and store only recent job postings on Indee
 
 ### Instructions for Mapper:
 * Ensure you have set your gmaps api token to a variable named "g_key" in a file named "g_config.py" in this repo's directory.
-* Open Plotting_Indeed_Data.ipynb in Jupyter Notebook.
+* Open Plotting_Job_Data.ipynb in Jupyter Notebook.
 * Find your output .csv file in the new 'Indeed_Data' directory created when the scraper finished. It will be named with the current day and your search term.
 * Enter the file name of that .csv in the first empty-string variable 'file_name' in the second cell.
 
@@ -80,13 +80,13 @@ This python script is made to search and store only recent job postings on Indee
 
 * Run it and see where the jobs pop up!
 
-![default_map](https://user-images.githubusercontent.com/14188580/114607599-5adb9480-9c62-11eb-981b-e6f6768fc763.PNG)<br></br>
-![zoom_map](https://user-images.githubusercontent.com/14188580/114607605-5ca55800-9c62-11eb-86f0-6fa5be333e32.PNG)
+![default_map](https://user-images.githubusercontent.com/14188580/115132139-2bf75280-9fc3-11eb-955c-b150abe2c4e3.PNG)<br></br>
+![zoom_map](https://user-images.githubusercontent.com/14188580/115132140-30237000-9fc3-11eb-9abd-ad2eee3d5df7.PNG)
+
 
 
 
 <br></br>
 #### Current Known Issues
 4.17.2021 - python 3.7.3 does not work with geopy, this program was written on 3.9.2<br>
-          - Currently working on debugging specific cases of job postings having bad Location Parameters. May have to call geopy for every job listing
 
