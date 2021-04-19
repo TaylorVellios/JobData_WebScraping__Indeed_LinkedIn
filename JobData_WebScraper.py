@@ -348,17 +348,7 @@ results_df = indeed_job_df.append(linkedin_job_df, ignore_index=True)
 
 results_df['City'] = clean_indeed_cities(results_df)
 results_df = results_df.dropna()
-
-
-
-#Save to File-------------------------------------------------------------------------TEMPORARY
-path_str = make_file_path(search_term)
-try:
-    os.mkdir('Job_Data')
-    results_df.to_csv(f'Job_Data/{path_str}PRECOORDINATES', index=False)
-except:
-    results_df.to_csv(f'Job_Data/{path_str}PRECOORDINATES', index=False)
-
+print(f'*****DataFrame Successfully Created*****')
 
 
 #add coordinates for all cities
@@ -377,11 +367,12 @@ try:
 except:
     results_df.to_csv(f'Job_Data/{path_str}', index=False)
 
-print(results_df)
 print('\n\n')
 
 stats = get_details(results_df)
 print(f"Total Jobs: {stats[0]}\n"
+    f"Indeed Jobs: {(results_df['Job Board']=='Indeed.com').sum()}\n"
+    f"LinkedIn Jobs: {(results_df['Job Board']=='LinkedIn.com').sum()}\n"
     f"Total Cities: {stats[1]}\n"
     f"Count of Cities that Failed Coordinate Search: {failed_city_coords}\n\n")
 
