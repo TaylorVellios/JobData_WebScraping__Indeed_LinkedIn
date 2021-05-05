@@ -68,7 +68,9 @@ This python script is made to search and store only recent job postings on Indee
 *Indeed.com will require a captcha if you ping it too often, breaking the program. Leave this open in an active terminal.*
 <br></br>
 ![outputDF](https://user-images.githubusercontent.com/14188580/114607521-43041080-9c62-11eb-95d3-0de4f5f9ee02.PNG)
-<br><br>
+</br>
+![Capture](https://user-images.githubusercontent.com/14188580/117185367-602e8980-ad9f-11eb-943a-4a616541ce19.PNG)
+<br></br>
 
 ### Instructions for Mapper:
 * Ensure you have set your gmaps api token to a variable named "g_key" in a file named "g_config.py" in this repo's directory.
