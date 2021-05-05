@@ -46,7 +46,7 @@ This repository contains a main script (JobData_WebScraper.py) as well as a Jupy
 The included .csv file (CityData_Clean.csv) contains the top 100 cities in the US sorted by descending population size.<br></br>
 
 
-This python script is made to search and store only recent job postings on Indeed.com (within 30 days) and return them as a .csv file on your machine.<br></br>
+This python script is made to search and store only recent job postings on [Indeed](https://www.indeed.com/) and [LinkedIn](https://www.linkedin.com/jobs/) (within 30 days) and return them as a .csv file on your machine.<br></br>
 
 ### Instructions for Scraper:
 * Run JobData_WebScraper.py in bash/terminal
@@ -90,7 +90,7 @@ This python script is made to search and store only recent job postings on Indee
 
 <br></br>
 #### Current Known Issues
-4.17.2021<br>
+5.5.2021<br>
 - my python 3.7.3 environment does not work with geopy, this program was written on 3.9.2
 - There is no cross-checking between indeed job postings and linkedin, it is entirely possible for city-count to be weighted incorrectly by listings for the same job.
 - many job postings provide a useless location such as "greater GENERAL_CITY_NAME metropolitan area", these are filtered down as much as possible to be compatible with geopy - some unique use-cases end up being ignored by geopy.
