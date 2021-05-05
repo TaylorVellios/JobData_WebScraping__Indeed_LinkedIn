@@ -92,6 +92,8 @@ This python script is made to search and store only recent job postings on Indee
 #### Current Known Issues
 4.17.2021<br>
 - my python 3.7.3 environment does not work with geopy, this program was written on 3.9.2
-- There is no cross-checking between indeed job postings and linkedin
-- many job postings provide a useless location such as "greater GENERAL_CITY_NAME metropolitan area", these are filtered down and functional with geopy but the data is not as useful. At this time, cannot narrow location search by employer, too many discrepancies for geopy to handle.
+- There is no cross-checking between indeed job postings and linkedin, it is entirely possible for city-count to be weighted incorrectly by listings for the same job.
+- many job postings provide a useless location such as "greater GENERAL_CITY_NAME metropolitan area", these are filtered down as much as possible to be compatible with geopy - some unique use-cases end up being ignored by geopy.
+![Capture](https://user-images.githubusercontent.com/14188580/117188888-2bbccc80-ada3-11eb-8723-64c2895aa2b7.PNG)
+
 
