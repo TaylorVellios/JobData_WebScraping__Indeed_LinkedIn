@@ -82,8 +82,10 @@ This python script is made to search and store only recent job postings on [Inde
 
 * Run it and see where the jobs pop up!
 
-![default_map](https://user-images.githubusercontent.com/14188580/115132139-2bf75280-9fc3-11eb-955c-b150abe2c4e3.PNG)<br></br>
-![zoom_map](https://user-images.githubusercontent.com/14188580/115132140-30237000-9fc3-11eb-9abd-ad2eee3d5df7.PNG)
+![default_map](https://user-images.githubusercontent.com/14188580/117653224-bf9ee780-b159-11eb-936b-8a2309b69a05.PNG)
+<br>
+![zoom_map](https://user-images.githubusercontent.com/14188580/117653246-c3326e80-b159-11eb-9ded-8e6edf826b4a.PNG)
+
 
 
 
