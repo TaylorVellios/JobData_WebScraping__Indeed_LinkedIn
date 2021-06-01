@@ -116,27 +116,40 @@ def linkedin_scraper(city_to_search, search_term, page):
 
 
     url =f"https://www.linkedin.com/jobs/search?keywords={'%20'.join(search_term.split())}&location={city_search}&geoId=&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum={page}"
-    scraper = requests.get(url)
-
-    soup = BeautifulSoup(scraper.content, 'html.parser')
-    job_listings = soup.find_all(class_='result-card job-result-card result-card--with-hover-state')
-
+    soup = BeautifulSoup(requests.get(url).content, 'html.parser')
+    
+    job_ul = soup.find('ul', class_='jobs-search__results-list')
+    job_listings = job_ul.find_all('li')
 
     failed_job_count = 0
     for job_index, single_job in enumerate(job_listings):
         
         try:
-            jobs['Employer'].append(single_job.find(class_="result-card__subtitle-link job-result-card__subtitle-link").text)
-            jobs['Title'].append(single_job.find(class_="result-card__title job-result-card__title").text)
-            jobs['City'].append(single_job.find(class_='job-result-card__location').text)
-            jobs['Job ID'].append(single_job.get('data-id'))
+            job_title = single_job.find('h3',class_='base-search-card__title')
+            job_title = ' '.join([i for i in job_title.text.split() if i != '' and i != '\n'])
+            
+            employer = single_job.find('h4',class_='base-search-card__subtitle')
+            employer = ' '.join([i for i in employer.text.split() if i !='' and i != '\n'])
+            
+            job_loc = single_job.find('span',class_='job-search-card__location').text
+            job_loc = ' '.join([i for i in job_loc.split() if i!='' and i!='\n'])
+
+            try:
+                job_id = single_job.find('div').get('data-entity-urn').split(":")[-1]
+            except:
+                job_id = f"{job_title} {employer} {job_loc}"  
+            
+            jobs['Employer'].append(employer)
+            jobs['Title'].append(job_title)
+            jobs['City'].append(job_loc)
+            jobs['Job ID'].append(job_id)
             jobs['Job Board'].append('LinkedIn')
             
             #NEW JOB POSTINGS HAVE A DIFFERENT CLASS TO TRIGGER GREEN BOLD TEXT IN BROWSER
             try:
-                jobs['Time Posted'].append(single_job.find(class_="job-result-card__listdate--new").get('datetime'))
+                jobs['Time Posted'].append(single_job.find('time', class_='job-search-card__listdate--new').get('datetime'))
             except:
-                jobs['Time Posted'].append(single_job.find(class_="job-result-card__listdate").get('datetime'))
+                jobs['Time Posted'].append(single_job.find('time', class_='job-search-card__listdate').get('datetime'))
         except:
             failed_job_count += 1
             pass
