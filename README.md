@@ -12,6 +12,9 @@ This script allows the user to gain the following insights:
 * The companies that post listings in those areas, allowing for an easier job search.
 * Locations of employers in the nearby-surrounding cities across the area, allowing the user to see and narrow down housing location choices.
 
+## 6.1.2021 Update
+Sometime between May 20th and May 30th, LinkedIn updated their HTML class names, breaking the original script.</br>
+As of 6.1.2021, this script has been updated to continue being functional.</br>
 
 ## Dependencies 
 #### Indeed_WebScraping.py
