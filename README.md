@@ -94,7 +94,7 @@ This python script is made to search and store only recent job postings on [Inde
 ## Significance
 Having run this twice a month for the last two months, it is clear that LinkedIn.com is the preferred job posting platform for tech positions across the US.</br>
 The largest cities, Los Angeles, Chicago, NYC are very viable markets for job searching on Indeed, but most other cities are very heavily focused on LinkedIn.
-As someone currently job hunting and open for relocation, this is good data to see to know where I shoould be focusing my attention.
+As someone currently job hunting and open for relocation, this is good data to see to know where I should be focusing my attention.
 <hr>
 
 <br></br>
