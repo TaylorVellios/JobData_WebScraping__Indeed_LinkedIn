@@ -1,5 +1,5 @@
 # Web Scraping Indeed and LinkedIn for Recent Job Postings
-Scraping Indeed (as ethically as possible) for Job Data Across Many Cities For the Younger Nomadic Workforce.
+Scraping Indeed and LinkedIn (simultaneously, and as ethically as possible) for Job Data Across Many Cities For the Younger Nomadic Workforce.
 
 ![tableau1](https://user-images.githubusercontent.com/14188580/120518734-7d06ae80-c397-11eb-8a71-bef01fe4f535.PNG)
 
